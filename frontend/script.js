@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/members')
+fetch('https://the-scorched-society.onrender.com/members')
   .then(res => res.json())
   .then(data => {
     const container = document.querySelector('.leader-list');
