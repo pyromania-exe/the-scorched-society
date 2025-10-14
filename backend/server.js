@@ -1,9 +1,18 @@
+
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const client = require('./bot');
 
 const app = express();
 app.use(cors());
+
+// Serve static files from the public folder (frontend build/served files)
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
 
 let isBotReady = false;
 
