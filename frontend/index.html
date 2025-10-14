@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scorched Society — Faction Wiki</title>
+    <style>
+        :root{
+            --bg:#0f0f10;
+            --card:#151518;
+            --muted:#9aa0a6;
+            --accent:#d96a1b;
+            --glass: rgba(255,255,255,0.03);
+            --logo-bg: #2b2b2b; /* dark grey background for the logo */
+            --max-w:1100px;
+            color-scheme: dark;
+        }
+        html,body{height:100%;background:#070707}
+        body{
+            min-height:100vh;
+            margin:0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            /* ensure the background is fully dark from top to bottom */
+            background:linear-gradient(180deg,#070707 0%, #0b0b0b 100%) fixed;
+            color:#e8e8e8;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            display:flex;
+            justify-content:center;
+            padding:32px 20px;
+        }
+        .container{
+            width:100%;
+            max-width:var(--max-w);
+        }
+        header{
+            display:flex;
+            align-items:center;
+            gap:16px;
+            margin-bottom:22px;
+        }
+        .logo{
+            width:64px;height:64px;border-radius:8px;
+            background:var(--logo-bg);
+            position:relative; /* create stacking context for absolutely positioned image */
+            display:block;font-weight:700;font-size:20px;color:#110;
+            /* soften shadow to avoid creating perceived grain */
+            box-shadow:0 4px 10px rgba(0,0,0,0.45);
+            overflow:hidden;
+            padding:0; /* remove inner padding so image can fill the box */
+            box-sizing:border-box;
+            /* promote to its own layer for smoother rendering */
+            transform:translateZ(0);
+            backface-visibility:hidden;
+        }
+        .logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transition:opacity .18s ease-in-out;image-rendering:auto;filter:none}
+    .logo-fallback{width:100%;height:100%;display:none;align-items:center;justify-content:center;color:var(--muted);font-weight:700;position:relative}
+        h1{font-size:22px;margin:0}
+        p.lead{margin:6px 0 0;color:var(--muted)}
+
+        nav.topnav{
+            margin-top:14px;
+            display:flex;gap:10px;flex-wrap:wrap;
+        }
+        .btn{
+            background:var(--glass);border-radius:8px;padding:8px 12px;color:var(--muted);text-decoration:none;font-size:14px;border:1px solid rgba(255,255,255,0.03);
+        }
+        .main{
+            display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px;align-items:start;
+        }
+    /* Use solid dark card background to avoid stacking light overlays */
+    .card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+        .hero{padding:28px;display:flex;gap:18px;align-items:flex-start}
+        .hero .meta{flex:1}
+        .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+        .tag{background:rgba(255,255,255,0.02);padding:6px 9px;border-radius:999px;font-size:13px;color:var(--muted)}
+
+        .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+        .section-title h2{font-size:16px;margin:0}
+        .leader-list{display:flex;flex-direction:column;gap:10px}
+        .leader{display:flex;gap:12px;align-items:center}
+        .leader .avatar{width:56px;height:56px;border-radius:8px;background:linear-gradient(160deg,#2b2b2b,#111);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+        /* Keep long leader lists scrollable so they don't push the whole page down */
+        aside .card { max-height: calc(100vh - 220px); overflow: auto; }
+        aside .leader-list { padding: 8px; }
+        /* Optional subtle scrollbar styling for modern browsers */
+        aside .card::-webkit-scrollbar { width: 10px; }
+        aside .card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
+
+        /* On wider screens make the aside sticky so it remains visible while main content scrolls */
+        @media (min-width: 881px) {
+            aside { align-self:start; }
+            aside .card { position: sticky; top: 100px; }
+        }
+
+        /* On small screens allow the aside to flow naturally (no sticky) */
+        @media (max-width: 880px) {
+            aside .card { position: static; max-height: none; overflow: visible; }
+        }
+
+        footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+
+        @media (max-width:880px){
+            .main{grid-template-columns:1fr;}
+            .hero{flex-direction:column}
+        }
+        /* Force bottom sections and footer to use dark backgrounds/colors */
+        main, aside, footer, .container{
+            background:transparent;
+            color:inherit;
+        }
+    </style>
+    <script>
+        // Small client-side helpers: toggle sections and search (expandable later)
+        function toggle(id){
+            const el=document.getElementById(id);
+            if(!el) return;
+            el.style.display = el.style.display === 'none' ? '' : 'none';
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            // collapse long descriptions by default for small screens
+            const desc = document.querySelector('.faction-desc');
+            if(window.innerWidth < 640 && desc) desc.style.maxHeight = '6.5em';
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <!-- To use an image as the logo place your file at `../assets/logo.png` (or change the src). -->
+            <div class="logo" aria-hidden>
+                <img id="site-logo" src="../assets/logo.png" alt="The Scorched Society logo" onerror="if(this.src && this.src.endsWith('.png')){this.onerror=null;this.src='../assets/logo.svg'}else{this.style.display='none';document.querySelector('.logo-fallback').style.display='flex'}" onload="document.querySelector('.logo-fallback').style.display='none'">
+                <div class="logo-fallback">SS</div>
+            </div>
+            <div>
+                <h1>The Scorched Society</h1>
+                <p class="lead">The Pheonix represents. Bravery, Power, Freedom, and Law.
+But every action there is a consenquence... </p>
+                <nav class="topnav" aria-label="primary">
+                    <a class="btn" href="#Laws">Laws</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <section>
+                <article class="card hero" id="overview">
+                    <div class="meta">
+                        <h2 style="margin-top:0">Faction Overview</h2>
+                        <p class="faction-desc">The Scorched Society is a coalition of survivors who embraced the harsh, fire-scarred regions to carve out a domain of industry, salvage, and ritual flame. They prize endurance, resource control, and a strict code measured in ash. This wiki collects the faction's history, notable members, doctrines, gameplay mechanics, and roleplaying hooks.</p>
+
+                        <div class="tags" aria-hidden>
+                            <span class="tag">Playstyle: passive</span>
+                            <span class="tag">Allies: Three</span>
+                            <span class="tag">Enemies: One</span>
+                        </div>
+                    </div>
+
+                </article>
+
+                <article class="card" id="lore" style="margin-top:14px">
+                    <div class="section-title">
+                        <h2>Lore & History</h2>
+                        <div style="color:var(--muted);font-size:13px">Last updated: 2025-10-9</div>
+                    </div>
+                    <p>Philosophy — Order Born from Ash
+                        <br>
+The Scorched Society is not a government. It is not a religion. It is a creed—an oath sworn by those who believe that peace is not a dream, but a discipline. They believe that law is the highest good—not oppressive rule, but structured equity, consistency, and protection for all, even in the worst of times.
+<br>
+They uphold five founding principles:
+<br>
+1.Justice Above Power – No one is above the law, not even the Society itself.
+<br>
+2.Equity in All Things – Resolve disputes not with might, but with fairness.
+<br>
+3.Memory of the Flame – Never forget the consequences of unrestrained ambition.
+<br>
+4.Service to the Voiceless – Protect those who cannot protect themselves.
+<br>
+5.Structure Breeds Survival – Chaos is death. Order is life.
+Legacy — The Law That Burns Bright
+                
+                        <li><strong>Writter:</strong> REDACTED_The2nd</li>
+                    </ul>
+                </article>
+
+                
+            </section>
+
+                        <aside>
+    <div class="card">
+        <div class="section-title"><h2 id="leaders">members</h2></div>
+        <div class="leader-list" style="margin-top:8px"></div>
+    </div>
+</aside>
+        </main>
+    </div>
+
+    <!-- Link your script -->
+    <script src="script.js"></script>
+</body>
+</html>
