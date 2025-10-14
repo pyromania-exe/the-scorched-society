@@ -8,10 +8,10 @@ const app = express();
 app.use(cors());
 
 // Serve static files from the public folder (frontend build/served files)
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 let isBotReady = false;
