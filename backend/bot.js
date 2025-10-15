@@ -11,7 +11,7 @@ const client = new Client({
   ]
 });
 
-client.once('Ready', () => {
+client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
@@ -21,31 +21,44 @@ client.login(process.env.DISCORD_TOKEN)
 
 module.exports = client;
 client.on('messageCreate', async (message) => {
-  if (message.content === '!logtraining') {
-    const filter = (m) => m.author.id === message.author.id;
-    const channel = message.channel;
+  if (message.author.bot) return; // ignore bots
+  if (message.content !== '!logtraining') return;
 
-    const ask = async (prompt) => {
-      await channel.send(prompt);
-      const collected = await channel.awaitMessages({ filter, max: 1, time: 60000 });
-      return collected.first()?.content || 'N/A';
-    };
+  // optional: restrict to a role or permissions (uncomment if needed)
+  // if (!message.member.permissions.has('MANAGE_MESSAGES')) return;
 
+  const filter = (m) => m.author.id === message.author.id;
+  const channel = message.channel;
+  const prompts = [];
+
+  const ask = async (prompt) => {
+    const sent = await channel.send(prompt);
+    prompts.push(sent);
+    const collected = await channel.awaitMessages({ filter, max: 1, time: 60000 });
+    const reply = collected.first();
+    if (reply) prompts.push(reply);
+    return reply?.content || 'N/A';
+  };
+
+  try {
     const type = await ask('📌 What type of training? (Combat / Knowledge / Combat and Knowledge). Add “Advanced” if needed.');
     const host = await ask('👤 Who is the host? (mention them)');
     const cohost = await ask('🧍 Who is the co-host? (mention or type “none”)');
     const attendees = await ask('👥 List all attendees (mention them or type names)');
     const startTime = await ask('⏰ What time did it start? Include your time zone (e.g. 16:00 EDT)');
-    const passed = await ask('✅ Who passed? (ALL / NONE / Combat / Knowledge)');
 
-    const log = `📋 **Training Log**
-**Type:** ${type}
-**Host:** ${host}
-**Co-Host:** ${cohost}
-**Attendees:** ${attendees}
-**Start Time:** ${startTime}
-**Passed:** ${passed}`;
+    // Delete all prompt and reply messages (best-effort)
+    for (const msg of prompts) {
+      try { await msg.delete(); } catch (e) { /* ignore */ }
+    }
 
-    channel.send(log);
+    const log = `📋 **${type} Training**\n**Host:** ${host}\n**Co-Host:** ${cohost}\n**Attendees:** ${attendees}\n**Start Time:** ${startTime}`;
+    await channel.send({ content: log });
+  } catch (err) {
+    // If user didn't reply in time, inform and clean up
+    for (const msg of prompts) {
+      try { await msg.delete(); } catch (e) { /* ignore */ }
+    }
+    channel.send('⏱️ Training logging timed out. Please run `!logtraining` again when ready.');
   }
 });
