@@ -67,7 +67,7 @@ client.on('messageCreate', async (message) => {
 // Slash command interaction handler
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
-  if (interaction.commandName === 'logtraining') {
+  if (interaction.commandName === 'announce-train') {
     const type = interaction.options.getString('type');
     const host = interaction.options.getString('host');
     const cohost = interaction.options.getString('cohost');

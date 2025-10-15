@@ -3,7 +3,7 @@ require('dotenv').config({ path: './backend/.env' });
 
 const commands = [
   new SlashCommandBuilder()
-    .setName('logtraining')
+    .setName('announce-train')
     .setDescription('Create a formatted training log')
     .addStringOption(opt =>
       opt.setName('type').setDescription('Type of training').setRequired(true))
