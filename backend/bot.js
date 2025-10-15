@@ -23,7 +23,7 @@ client.login(process.env.DISCORD_TOKEN)
 module.exports = client;
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return; // ignore bots
-  if (message.content !== '!logtraining') return;
+  if (message.content !== '!announce-train') return;
 
   // optional: restrict to a role or permissions (uncomment if needed)
   // if (!message.member.permissions.has('MANAGE_MESSAGES')) return;
@@ -57,10 +57,10 @@ client.on('messageCreate', async (message) => {
     await channel.send({ content: log });
   } catch (err) {
     // If user didn't reply in time, inform and clean up
-    for (const msg of prompts) {
-      try { await msg.delete(); } catch (e) { /* ignore */ }
-    }
-    channel.send('⏱️ Training logging timed out. Please run `!logtraining` again when ready.');
+      for (const msg of prompts) {
+        try { await msg.delete(); } catch (e) { /* ignore */ }
+      }
+    channel.send('⏱️ Training logging timed out. Please run `!announce-train` again when ready.');
   }
 });
 
