@@ -1,5 +1,5 @@
 console.log('Bot script started...');
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({
@@ -60,5 +60,21 @@ client.on('messageCreate', async (message) => {
       try { await msg.delete(); } catch (e) { /* ignore */ }
     }
     channel.send('⏱️ Training logging timed out. Please run `!logtraining` again when ready.');
+  }
+});
+
+// Slash command interaction handler
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+  if (interaction.commandName === 'logtraining') {
+    const type = interaction.options.getString('type');
+    const host = interaction.options.getString('host');
+    const cohost = interaction.options.getString('cohost');
+    const attendees = interaction.options.getString('attendees');
+    const startTime = interaction.options.getString('starttime');
+
+    const log = `📋 **${type} Training**\n**Host:** ${host}\n**Co-Host:** ${cohost}\n**Attendees:** ${attendees}\n**Start Time:** ${startTime}`;
+
+    await interaction.reply({ content: log, ephemeral: false });
   }
 });
