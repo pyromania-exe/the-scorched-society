@@ -78,4 +78,12 @@ client.on('interactionCreate', async (interaction) => {
 
     await interaction.reply({ content: log, ephemeral: false });
   }
+  if (interaction.commandName === 'train-conclusion') {
+    const attendees = interaction.options.getString('attendees');
+    const endTime = interaction.options.getString('endtime');
+    const passed = interaction.options.getString('passed');
+
+    const message = `**Training Conclusion**\nAttendees: ${attendees}\nEnd Time: ${endTime}\nPassed: ${passed}`;
+    await interaction.reply({ content: message, ephemeral: false });
+  }
 });

@@ -15,6 +15,22 @@ const commands = [
       opt.setName('attendees').setDescription('List all attendees').setRequired(true))
     .addStringOption(opt =>
       opt.setName('starttime').setDescription('Start time with time zone').setRequired(true))
+  ,
+  new SlashCommandBuilder()
+    .setName('train-conclusion')
+    .setDescription('Announce the conclusion of a training session')
+    .addStringOption(opt =>
+      opt.setName('attendees')
+        .setDescription('List all attendees')
+        .setRequired(true))
+    .addStringOption(opt =>
+      opt.setName('endtime')
+        .setDescription('End time with time zone')
+        .setRequired(true))
+    .addStringOption(opt =>
+      opt.setName('passed')
+        .setDescription('Who passed (Combat / Knowledge / Both / None)')
+        .setRequired(true))
 ].map(cmd => cmd.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
