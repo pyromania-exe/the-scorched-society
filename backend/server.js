@@ -4,6 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const client = require('./bot');
 
+// Register guild slash commands at startup (deploy-commands uses backend/.env)
+try { require('./deploy-commands'); } catch (e) { console.warn('deploy-commands not executed:', e.message); }
+
 const app = express();
 app.use(cors());
 
