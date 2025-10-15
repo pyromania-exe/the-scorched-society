@@ -10,6 +10,9 @@ app.use(cors());
 // Serve static files from the public folder (frontend build/served files)
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
+// Serve assets (images, etc.) from the repo-level assets folder at /assets
+app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
