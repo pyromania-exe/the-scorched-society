@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scorched Society — Laws</title>
+    <style>
+        :root {
+            --bg: #0f0f10;
+            --card: #151518;
+            --muted: #9aa0a6;
+            --accent: #d96a1b;
+            --glass: rgba(255,255,255,0.03);
+            --logo-bg: #2b2b2b; /* dark grey background for the logo */
+            --class-a: #d96a1b; /* Using accent color for Class A */
+            --class-b: #8b4513; /* Darker shade for Class B */
+            --class-c: #5c2d0e; /* Even darker for Class C */
+            --max-w: 1100px;
+            color-scheme: dark;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg);
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            color: #e8e8e8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            min-height: 100vh;
+            /* Use a consistent solid background to avoid seams on long pages */
+            background-color: var(--bg);
+            background-image: none;
+            padding: 32px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-w);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            background: var(--logo-bg);
+            position: relative;
+            display: block;
+            font-weight: 700;
+            font-size: 20px;
+            color: #110;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+            overflow: hidden;
+            padding: 0;
+            box-sizing: border-box;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .logo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+            transition: opacity .18s ease-in-out;
+            image-rendering: auto;
+            filter: none;
+        }
+
+        .logo-fallback {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-weight: 700;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        p.lead {
+            margin: 6px 0 0;
+            color: var(--muted);
+        }
+
+        nav.topnav {
+            margin-top: 12px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.02);  /* Same as tag background */
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .law-section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+        }
+
+        .class-a {
+            border-left: 4px solid var(--class-a);
+        }
+
+        .class-b {
+            border-left: 4px solid var(--class-b);
+        }
+
+        .class-c {
+            border-left: 4px solid var(--class-c);
+        }
+
+        .law-section h2 {
+            margin: 0 0 16px 0;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .class-indicator {
+            font-size: 14px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .class-a .class-indicator {
+            background: var(--class-a);
+        }
+
+        .class-b .class-indicator {
+            background: var(--class-b);
+        }
+
+        .class-c .class-indicator {
+            background: var(--class-c);
+        }
+
+        .laws-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .law-item {
+            padding: 0;
+            background: transparent;
+            margin-bottom: 8px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .law-toggle {
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--glass);
+            border: 0;
+            border-radius: 8px;
+            color: inherit;
+            font: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .law-toggle:focus {
+            outline: 2px solid rgba(217,106,27,0.18);
+            outline-offset: 2px;
+        }
+
+        .law-desc {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.22s ease, padding 0.18s ease;
+            padding: 0 16px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .law-item.open .law-desc {
+            padding-top: 10px;
+            padding-bottom: 12px;
+            max-height: 420px; /* large enough for most descriptions */
+        }
+
+        .chev {
+            display: inline-block;
+            transform-origin: center;
+            transition: transform 0.18s ease;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .law-item.open .chev { transform: rotate(90deg); color: #fff }
+
+        .law-item:last-child { margin-bottom: 0; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 16px;
+            }
+
+            .law-section {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .law-section h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="The Scorched Society" onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='flex'" />
+                <div class="logo-fallback">SS</div>
+            </a>
+            <div class="meta">
+                <h1>The Scorched Society Laws</h1>
+                <p class="lead">Official regulations and guidelines of our faction</p>
+                <nav class="topnav">
+                    <a href="index.html" class="btn">Home</a>
+                    <a href="laws.html" class="btn active">Laws</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="law-section class-a">
+            <h2><span class="class-indicator">A</span> Class A Laws</h2>
+            <ul class="laws-list">
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-1 Disrupting Civil Peace</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Unnecessary conflict, verbal hostility, or behavior that breaks public unity.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-2 Disrespect Toward Authority or the Free</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Minor insults or refusal to show basic respect to leaders or fellow members.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-3 Non-Compliance with Communal Decisions</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Ignoring votes, consensus, or rulings that apply to all members.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-4 Neglection of Responsibility</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Failure to perform assigned roles or duties when physically and mentally able.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-5 Unapproved Expression of Power</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Using one’s influence, strength, or station to intimidate without just cause.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">A-6 Breaking of Minor Oaths</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Going back on promises or agreements that do not endanger others.</div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="law-section class-b">
+            <h2><span class="class-indicator">B</span> Class B Laws</h2>
+            <ul class="laws-list">
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">B-1 Willful Disobedience</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Deliberately refusing to follow a lawful command or enforce agreed law.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">B-2 Inciting Distrust in Law or Order</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Spreading lies or conspiracies that weaken faith in the faction’s structure.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">B-3 Unlawful Seizure of Power</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Attempting to gain rank, role, or control outside of sanctioned paths or proper attending of training sessions.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">B-4 Physical Assault (Non-lethal)</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Attacking another member unintentionally (Say sorry, if you don’t this will apply.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">B-5 Breaking of Major Oaths</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Abandoning sworn duties or roles that protect others or uphold the law.</div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="law-section class-c">
+            <h2><span class="class-indicator">C</span> Class C Laws</h2>
+            <ul class="laws-list">
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">C-1 Treason</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Acting to betray, overthrow, or destroy the Faction or its people.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">C-2 Murder</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Killing a member with murderous intent.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">C-3 Unleashing Chaos</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Deliberately causing destruction, mass fear, or lawless violence.</div>
+                </li>
+                <li class="law-item">
+                    <button class="law-toggle" aria-expanded="false">
+                        <span class="law-title">C-4 Corruption of Power</span>
+                        <span class="chev">▸</span>
+                    </button>
+                    <div class="law-desc">Using one's station or strength to dominate, exploit, or enslave.</div>
+                </li>
+            </ul>
+        </section>
+    </div>
+    <script>
+        // Make law items expandable
+        (function(){
+            const container = document.querySelector('.container');
+            if(!container) return;
+
+            container.addEventListener('click', (e) => {
+                const btn = e.target.closest('.law-toggle');
+                if(!btn) return;
+                const li = btn.closest('.law-item');
+                const expanded = li.classList.toggle('open');
+                btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                // For accessibility, move focus to the description when opened
+                if(expanded){
+                    const desc = li.querySelector('.law-desc');
+                    if(desc){ desc.setAttribute('tabindex','-1'); desc.focus(); }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
