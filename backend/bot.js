@@ -12,21 +12,37 @@ const client = new Client({
   ]
 });
 
-client.once('ready', () => {
+client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
+
+  client.user.setPresence({
+    activities: [{
+      name: 'clensing the corrupt minded',
+      type: 0
+    }],
+    status: 'dnd'
+  });
+
+  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+  try {
+    await rest.patch('/users/@me', {
+      body: {
+        bio: 'the scorched shall rise from the ashes'
+      }
+    });
+    console.log('Bot bio updated successfully.');
+  } catch (error) {
+    console.error('Failed to update bot bio:', error);
+  }
 });
 
-// ✅ Properly chained .catch
 client.login(process.env.DISCORD_TOKEN)
   .catch(err => console.error('Login error:', err));
 
 module.exports = client;
 client.on('messageCreate', async (message) => {
-  if (message.author.bot) return; // ignore bots
+  if (message.author.bot) return;
   if (message.content !== '!announce-train') return;
-
-  // optional: restrict to a role or permissions (uncomment if needed)
-  // if (!message.member.permissions.has('MANAGE_MESSAGES')) return;
 
   const filter = (m) => m.author.id === message.author.id;
   const channel = message.channel;
@@ -48,23 +64,20 @@ client.on('messageCreate', async (message) => {
     const attendees = await ask('👥 List all attendees (mention them or type names)');
     const startTime = await ask('⏰ What time did it start? Include your time zone (e.g. 16:00 EDT)');
 
-    // Delete all prompt and reply messages (best-effort)
     for (const msg of prompts) {
-      try { await msg.delete(); } catch (e) { /* ignore */ }
+      try { await msg.delete(); } catch (e) { }
     }
 
     const log = `📋 **${type} Training**\n**Host:** ${host}\n**Co-Host:** ${cohost}\n**Attendees:** ${attendees}\n**Start Time:** ${startTime}`;
     await channel.send({ content: log });
   } catch (err) {
-    // If user didn't reply in time, inform and clean up
       for (const msg of prompts) {
-        try { await msg.delete(); } catch (e) { /* ignore */ }
+        try { await msg.delete(); } catch (e) { }
       }
     channel.send('⏱️ Training logging timed out. Please run `!announce-train` again when ready.');
   }
 });
 
-// Slash command interaction handler
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === 'announce-train') {

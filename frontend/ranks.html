@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scorched Society — Ranks</title>
+    <style>
+        :root {
+            --bg: #0f0f10;
+            --card: #151518;
+            --muted: #9aa0a6;
+            --accent: #d96a1b;
+            --glass: rgba(255,255,255,0.03);
+            --logo-bg: #2b2b2b;
+            --max-w: 1100px;
+            color-scheme: dark;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg);
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            color: #e8e8e8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--bg);
+            padding: 32px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { width:100%; max-width:var(--max-w); }
+
+        header{ display:flex; align-items:center; gap:16px; margin-bottom:22px }
+        .logo{ width:64px; height:64px; border-radius:8px; background:var(--logo-bg); position:relative; display:block; font-weight:700; font-size:20px; color:#110; box-shadow:0 4px 10px rgba(0,0,0,0.45); overflow:hidden; padding:0; box-sizing:border-box }
+        .logo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; display:block}
+        .logo-fallback{width:100%;height:100%;display:none;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+
+        .meta h1{ font-size:22px; margin:0 }
+        .lead{ margin:6px 0 0; color:var(--muted) }
+
+        nav.topnav{ margin-top:12px; margin-bottom:32px; display:flex; gap:10px; flex-wrap:wrap }
+        .btn{ background: rgba(255,255,255,0.02); border-radius:8px; padding:8px 12px; color:var(--muted); text-decoration:none; font-size:14px; border:1px solid rgba(255,255,255,0.03); transition:background-color .2s }
+        .btn:hover{ background:var(--accent); color:#fff }
+        .btn.active{ background:var(--accent); color:#fff }
+
+        .card{ background:var(--card); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 6px 20px rgba(0,0,0,0.6) }
+
+        .rank-section{ background:var(--card); border-radius:12px; padding:20px; margin-bottom:18px; border:1px solid rgba(255,255,255,0.03) }
+        .rank-section h2{ margin:0 0 12px 0; font-size:20px }
+
+        .items-list{ list-style:none; padding:0; margin:0 }
+        .item { padding:0; margin-bottom:10px }
+
+        .toggle { width:100%; text-align:left; padding:12px 16px; background:var(--glass); border:0; border-radius:8px; color:inherit; font:inherit; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer }
+        .toggle:focus{ outline:2px solid rgba(217,106,27,0.18); outline-offset:2px }
+
+        .desc { max-height:0; overflow:hidden; transition:max-height .22s ease, padding .18s ease; padding:0 16px; color:var(--muted); font-size:14px }
+        .item.open .desc{ padding-top:10px; padding-bottom:12px; max-height:360px }
+        .chev{ display:inline-block; transform-origin:center; transition:transform .18s ease; color:var(--muted); font-weight:700 }
+        .item.open .chev{ transform:rotate(90deg); color:#fff }
+
+        @media (max-width:768px){ body{ padding:20px 16px } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="The Scorched Society" onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='flex'" />
+                <div class="logo-fallback">SS</div>
+            </a>
+            <div class="meta">
+                <h1>The Scorched Society — Ranks</h1>
+                <p class="lead">Overview of ranks and role descriptions</p>
+                <nav class="topnav">
+                    <a href="index.html" class="btn">Home</a>
+                    <a href="laws.html" class="btn">Laws</a>
+                    <a href="ranks.html" class="btn active">Ranks</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="rank-section">
+            <h2>Leaders</h2>
+            <ul class="items-list">
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>The Infernal Jester</span><span class="chev">▸</span></button>
+                    <div class="desc">pyromania - The leader and founder of the scorched society as well as commander of the disciples of repremandation.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>The Chief Of Justice</span><span class="chev">▸</span></button>
+                    <div class="desc">REDACTED - Leads the counsil of law and order as the head judge and assists as the co-leader of the faction.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>The Inferno General</span><span class="chev">▸</span></button>
+                    <div class="desc">WEST - commander of the scorched attack unit and elite warriors of the infernal knights.</div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="rank-section">
+            <h2>Support Ranks</h2>
+            <ul class="items-list">
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Sergeant</span><span class="chev">▸</span></button>
+                    <div class="desc">Supervises squads and enforces discipline and standards.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Specialist</span><span class="chev">▸</span></button>
+                    <div class="desc">Provides technical or specialist skills such as medics or engineers.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Corporal</span><span class="chev">▸</span></button>
+                    <div class="desc">Junior non-commissioned officer; leads small teams and mentors recruits.</div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="rank-section">
+            <h2>Civilian Ranks</h2>
+            <ul class="items-list">
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Civilian - Leader</span><span class="chev">▸</span></button>
+                    <div class="desc">Community-elected leaders responsible for local governance and liaison with command.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Civilian - Representative</span><span class="chev">▸</span></button>
+                    <div class="desc">Represent factions of citizens in councils and advise leadership on civilian matters.</div>
+                </li>
+                <li class="item">
+                    <button class="toggle" aria-expanded="false"><span>Civilian - Member</span><span class="chev">▸</span></button>
+                    <div class="desc">General members of the community with rights and responsibilities under faction law.</div>
+                </li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        (function(){
+            const container = document.querySelector('.container');
+            if(!container) return;
+            container.addEventListener('click', (e)=>{
+                const btn = e.target.closest('.toggle');
+                if(!btn) return;
+                const li = btn.closest('.item');
+                const open = li.classList.toggle('open');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if(open){
+                    const d = li.querySelector('.desc'); if(d){ d.setAttribute('tabindex','-1'); d.focus(); }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

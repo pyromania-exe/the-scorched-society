@@ -11,7 +11,7 @@
             --muted:#9aa0a6;
             --accent:#d96a1b;
             --glass: rgba(255,255,255,0.03);
-            --logo-bg: #2b2b2b; /* dark grey background for the logo */
+            --logo-bg: #2b2b2b;
             --max-w:1100px;
             color-scheme: dark;
         }
@@ -20,7 +20,6 @@
             min-height:100vh;
             margin:0;
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            /* ensure the background is fully dark from top to bottom */
             background-color:var(--bg);
             background-image:linear-gradient(180deg,#070707 0%, #0b0b0b 100%);
             background-repeat: no-repeat;
@@ -47,14 +46,12 @@
         .logo{
             width:64px;height:64px;border-radius:8px;
             background:var(--logo-bg);
-            position:relative; /* create stacking context for absolutely positioned image */
+            position:relative;
             display:block;font-weight:700;font-size:20px;color:#110;
-            /* soften shadow to avoid creating perceived grain */
             box-shadow:0 4px 10px rgba(0,0,0,0.45);
             overflow:hidden;
-            padding:0; /* remove inner padding so image can fill the box */
+            padding:0;
             box-sizing:border-box;
-            /* promote to its own layer for smoother rendering */
             transform:translateZ(0);
             backface-visibility:hidden;
         }
@@ -71,7 +68,7 @@
             flex-wrap: wrap;
         }
         .btn{
-            background: rgba(255,255,255,0.02);  /* Same as tag background */
+            background: rgba(255,255,255,0.02);
             border-radius: 8px;
             padding: 8px 12px;
             color: var(--muted);
@@ -93,7 +90,6 @@
         .main{
             display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px;align-items:start;
         }
-    /* Use solid dark card background to avoid stacking light overlays */
     .card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 20px rgba(0,0,0,0.6)}
         .hero{padding:28px;display:flex;gap:18px;align-items:flex-start}
         .hero .meta{flex:1}
@@ -105,20 +101,16 @@
         .leader-list{display:flex;flex-direction:column;gap:10px}
         .leader{display:flex;gap:12px;align-items:center}
         .leader .avatar{width:56px;height:56px;border-radius:8px;background:linear-gradient(160deg,#2b2b2b,#111);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
-        /* Keep long leader lists scrollable so they don't push the whole page down */
         aside .card { max-height: calc(100vh - 220px); overflow: auto; }
         aside .leader-list { padding: 8px; }
-        /* Optional subtle scrollbar styling for modern browsers */
         aside .card::-webkit-scrollbar { width: 10px; }
         aside .card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
 
-        /* On wider screens make the aside sticky so it remains visible while main content scrolls */
         @media (min-width: 881px) {
             aside { align-self:start; }
             aside .card { position: sticky; top: 100px; }
         }
 
-        /* On small screens allow the aside to flow naturally (no sticky) */
         @media (max-width: 880px) {
             aside .card { position: static; max-height: none; overflow: visible; }
         }
@@ -129,21 +121,18 @@
             .main{grid-template-columns:1fr;}
             .hero{flex-direction:column}
         }
-        /* Force bottom sections and footer to use dark backgrounds/colors */
         main, aside, footer, .container{
             background:transparent;
             color:inherit;
         }
     </style>
     <script>
-        // Small client-side helpers: toggle sections and search (expandable later)
         function toggle(id){
             const el=document.getElementById(id);
             if(!el) return;
             el.style.display = el.style.display === 'none' ? '' : 'none';
         }
         document.addEventListener('DOMContentLoaded', ()=>{
-            // collapse long descriptions by default for small screens
             const desc = document.querySelector('.faction-desc');
             if(window.innerWidth < 640 && desc) desc.style.maxHeight = '6.5em';
         });
@@ -152,7 +141,6 @@
 <body>
     <div class="container">
         <header>
-            <!-- To use an image as the logo place your file at `../assets/logo.png` (or change the src). -->
             <div class="logo" aria-hidden>
                 <img id="site-logo" src="logo.png" alt="The Scorched Society logo" onerror="if(this.src && this.src.endsWith('.png')){this.onerror=null;this.src='/assets/logo.svg'}else{this.style.display='none';document.querySelector('.logo-fallback').style.display='flex'}" onload="document.querySelector('.logo-fallback').style.display='none'">
                 <div class="logo-fallback">SS</div>
@@ -164,6 +152,7 @@ But every action there is a consenquence... </p>
                 <nav class="topnav" aria-label="primary">
                     <a class="btn active" href="index.html">Home</a>
                     <a class="btn" href="laws.html">Laws</a>
+                    <a href="ranks.html" class="btn">Ranks</a>
                 </nav>
             </div>
         </header>
@@ -210,7 +199,6 @@ Legacy — The Law That Burns Bright
                     </ul>
                 </article>
 
-                
             </section>
 
                         <aside>
@@ -222,7 +210,6 @@ Legacy — The Law That Burns Bright
         </main>
     </div>
 
-    <!-- Link your script -->
     <script src="script.js"></script>
 </body>
 </html>

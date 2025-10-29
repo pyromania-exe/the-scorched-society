@@ -11,10 +11,10 @@
             --muted: #9aa0a6;
             --accent: #d96a1b;
             --glass: rgba(255,255,255,0.03);
-            --logo-bg: #2b2b2b; /* dark grey background for the logo */
-            --class-a: #d96a1b; /* Using accent color for Class A */
-            --class-b: #8b4513; /* Darker shade for Class B */
-            --class-c: #5c2d0e; /* Even darker for Class C */
+            --logo-bg: #2b2b2b;
+            --class-a: #d96a1b;
+            --class-b: #8b4513;
+            --class-c: #5c2d0e;
             --max-w: 1100px;
             color-scheme: dark;
         }
@@ -31,7 +31,6 @@
 
         body {
             min-height: 100vh;
-            /* Use a consistent solid background to avoid seams on long pages */
             background-color: var(--bg);
             background-image: none;
             padding: 32px 20px;
@@ -112,7 +111,7 @@
         }
 
         .btn {
-            background: rgba(255,255,255,0.02);  /* Same as tag background */
+            background: rgba(255,255,255,0.02);
             border-radius: 8px;
             padding: 8px 12px;
             color: var(--muted);
@@ -135,23 +134,28 @@
         .law-section {
             background: var(--card);
             border-radius: 12px;
-            padding: 24px;
+            padding: 24px 24px 24px 28px;
             margin-bottom: 24px;
             border: 1px solid rgba(255,255,255,0.03);
             box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            position: relative;
         }
 
-        .class-a {
-            border-left: 4px solid var(--class-a);
+        .law-section.class-a::before,
+        .law-section.class-b::before,
+        .law-section.class-c::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            border-radius: 8px 0 0 8px;
         }
 
-        .class-b {
-            border-left: 4px solid var(--class-b);
-        }
-
-        .class-c {
-            border-left: 4px solid var(--class-c);
-        }
+        .law-section.class-a::before { background: var(--class-a); }
+        .law-section.class-b::before { background: var(--class-b); }
+        .law-section.class-c::before { background: var(--class-c); }
 
         .law-section h2 {
             margin: 0 0 16px 0;
@@ -168,97 +172,31 @@
             font-weight: bold;
         }
 
-        .class-a .class-indicator {
-            background: var(--class-a);
-        }
+        .class-a .class-indicator { background: var(--class-a); }
+        .class-b .class-indicator { background: var(--class-b); }
+        .class-c .class-indicator { background: var(--class-c); }
 
-        .class-b .class-indicator {
-            background: var(--class-b);
-        }
-
-        .class-c .class-indicator {
-            background: var(--class-c);
-        }
-
-        .laws-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .law-item {
-            padding: 0;
-            background: transparent;
-            margin-bottom: 8px;
-            font-size: 15px;
-            line-height: 1.5;
-        }
+        .laws-list { list-style: none; padding: 0; margin: 0; }
+        .law-item { padding: 0; background: transparent; margin-bottom: 8px; font-size: 15px; line-height: 1.5; }
 
         .law-toggle {
-            width: 100%;
-            text-align: left;
-            padding: 12px 16px;
-            background: var(--glass);
-            border: 0;
-            border-radius: 8px;
-            color: inherit;
-            font: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            cursor: pointer;
+            width: 100%; text-align: left; padding: 12px 16px; background: var(--glass); border: 0; border-radius: 8px; color: inherit; font: inherit; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer;
         }
 
-        .law-toggle:focus {
-            outline: 2px solid rgba(217,106,27,0.18);
-            outline-offset: 2px;
-        }
+        .law-toggle:focus { outline: 2px solid rgba(217,106,27,0.18); outline-offset: 2px; }
 
-        .law-desc {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.22s ease, padding 0.18s ease;
-            padding: 0 16px;
-            color: var(--muted);
-            font-size: 14px;
-        }
+        .law-desc { max-height: 0; overflow: hidden; transition: max-height 0.22s ease, padding 0.18s ease; padding: 0 16px; color: var(--muted); font-size: 14px; }
+        .law-item.open .law-desc { padding-top: 10px; padding-bottom: 12px; max-height: 420px }
 
-        .law-item.open .law-desc {
-            padding-top: 10px;
-            padding-bottom: 12px;
-            max-height: 420px; /* large enough for most descriptions */
-        }
-
-        .chev {
-            display: inline-block;
-            transform-origin: center;
-            transition: transform 0.18s ease;
-            color: var(--muted);
-            font-weight: 700;
-        }
-
+        .chev { display: inline-block; transform-origin: center; transition: transform 0.18s ease; color: var(--muted); font-weight: 700; }
         .law-item.open .chev { transform: rotate(90deg); color: #fff }
-
         .law-item:last-child { margin-bottom: 0; }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
-            body {
-                padding: 20px 16px;
-            }
-
-            .law-section {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .law-section h2 {
-                font-size: 20px;
-            }
+            body { padding: 20px 16px; }
+            .law-section { padding: 20px; }
+            h1 { font-size: 24px; }
+            .law-section h2 { font-size: 20px; }
         }
     </style>
 </head>
@@ -275,6 +213,7 @@
                 <nav class="topnav">
                     <a href="index.html" class="btn">Home</a>
                     <a href="laws.html" class="btn active">Laws</a>
+                    <a href="ranks.html" class="btn">Ranks</a>
                 </nav>
             </div>
         </header>
@@ -403,7 +342,6 @@
         </section>
     </div>
     <script>
-        // Make law items expandable
         (function(){
             const container = document.querySelector('.container');
             if(!container) return;
@@ -414,7 +352,6 @@
                 const li = btn.closest('.law-item');
                 const expanded = li.classList.toggle('open');
                 btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-                // For accessibility, move focus to the description when opened
                 if(expanded){
                     const desc = li.querySelector('.law-desc');
                     if(desc){ desc.setAttribute('tabindex','-1'); desc.focus(); }
