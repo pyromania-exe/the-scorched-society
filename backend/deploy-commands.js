@@ -31,6 +31,34 @@ const commands = [
       opt.setName('passed')
         .setDescription('Who passed (Combat / Knowledge / Both / None)')
         .setRequired(true))
+  ,
+  new SlashCommandBuilder()
+    .setName('ticket')
+    .setDescription('Ticket commands')
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('open')
+        .setDescription('Open a ticket')
+        .addStringOption(option =>
+          option.setName('type')
+            .setDescription('Ticket type')
+            .setRequired(true))
+        .addStringOption(option =>
+          option.setName('description')
+            .setDescription('Short description')
+            .setRequired(true)))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('close')
+        .setDescription('Close a ticket')
+        .addStringOption(option =>
+          option.setName('ticket_id')
+            .setDescription('Ticket id or channel mention')
+            .setRequired(false)))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('list')
+        .setDescription('List open tickets (mods only)'))
 ].map(cmd => cmd.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
